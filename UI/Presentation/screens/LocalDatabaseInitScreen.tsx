@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import type { MobileContainer } from '../../../Infrastructure/CompositionRoot/mobileContainer';
 
 type Props = {
   container: MobileContainer;
+  onContinue?: () => void;
 };
 
 type Phase = 'loading' | 'success' | 'error';
 
-export function LocalDatabaseInitScreen({ container }: Props) {
+export function LocalDatabaseInitScreen({ container, onContinue }: Props) {
   const [phase, setPhase] = useState<Phase>('loading');
   const [detail, setDetail] = useState('');
 
@@ -48,6 +49,11 @@ export function LocalDatabaseInitScreen({ container }: Props) {
         <View style={styles.block}>
           <Text style={styles.successTitle}>Correcto</Text>
           <Text style={styles.successBody}>{detail}</Text>
+          {onContinue ? (
+            <TouchableOpacity style={styles.button} onPress={onContinue} accessibilityRole="button">
+              <Text style={styles.buttonLabel}>Continuar</Text>
+            </TouchableOpacity>
+          ) : null}
         </View>
       )}
       {phase === 'error' && (
@@ -103,5 +109,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 15,
     color: '#c62828',
+  },
+  button: {
+    marginTop: 24,
+    backgroundColor: '#1565c0',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+  },
+  buttonLabel: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
