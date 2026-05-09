@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import type { MobileContainer } from '../../../Infrastructure/CompositionRoot/mobileContainer';
 import type { RootStackParamList } from '../navigation/types';
+import { appStyles, colors, spacing, typography } from '../theme/appTheme';
 
 type Props = {
   container: MobileContainer;
@@ -117,38 +118,43 @@ export function UsuarioFormScreen({ container }: Props) {
 
       <Text style={styles.label}>Nombre</Text>
       <TextInput
-        style={styles.input}
+        style={[appStyles.input, styles.field]}
         value={nombre}
         onChangeText={setNombre}
         placeholder="Nombre"
+        placeholderTextColor={colors.textMuted}
         autoCapitalize="words"
       />
 
       <Text style={styles.label}>Piso de la casa</Text>
       <TextInput
-        style={styles.input}
+        style={[appStyles.input, styles.field]}
         value={pisoDeLaCasa}
         onChangeText={setPisoDeLaCasa}
         placeholder="Ej. 3º B"
+        placeholderTextColor={colors.textMuted}
       />
 
       <View style={styles.switchRow}>
         <Text style={styles.label}>Es casa</Text>
-        <Switch value={esCasa} onValueChange={setEsCasa} accessibilityLabel="Es casa" />
+        <Switch
+          value={esCasa}
+          onValueChange={setEsCasa}
+          accessibilityLabel="Es casa"
+          trackColor={{ false: colors.border, true: colors.primary }}
+          thumbColor={colors.surface}
+        />
       </View>
 
       <View style={styles.actions}>
-        <Pressable
-          style={[styles.btn, styles.secondary]}
-          onPress={salir}
-          accessibilityRole="button">
-          <Text style={styles.secondaryText}>Cancelar</Text>
+        <Pressable style={[appStyles.btnSecondary, styles.btnGrow]} onPress={salir} accessibilityRole="button">
+          <Text style={appStyles.btnSecondaryText}>Cancelar</Text>
         </Pressable>
         <Pressable
-          style={[styles.btn, styles.primary]}
+          style={[appStyles.btnPrimary, styles.btnGrow]}
           onPress={guardar}
           accessibilityRole="button">
-          <Text style={styles.primaryText}>Guardar</Text>
+          <Text style={appStyles.btnPrimaryText}>Guardar</Text>
         </Pressable>
       </View>
     </ScrollView>
@@ -156,38 +162,24 @@ export function UsuarioFormScreen({ container }: Props) {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1 },
-  content: { padding: 16, paddingBottom: 32 },
-  centered: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  hint: { color: '#666' },
-  title: { fontSize: 20, fontWeight: '700', marginBottom: 20 },
-  label: { fontSize: 14, fontWeight: '600', marginBottom: 6, color: '#333' },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    fontSize: 16,
-    marginBottom: 16,
-    backgroundColor: '#fff',
+  root: { flex: 1, backgroundColor: colors.background },
+  content: { padding: spacing.md, paddingBottom: spacing.xxl },
+  centered: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.background,
   },
+  hint: { color: colors.textMuted },
+  title: { ...typography.subtitle, marginBottom: spacing.lg, color: colors.textPrimary },
+  label: { ...typography.label, marginBottom: spacing.xs, color: colors.textPrimary },
+  field: { marginBottom: spacing.md },
   switchRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 24,
+    marginBottom: spacing.xl,
   },
-  actions: { flexDirection: 'row', gap: 12, justifyContent: 'flex-end' },
-  btn: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    minWidth: 100,
-    alignItems: 'center',
-  },
-  primary: { backgroundColor: '#1565c0' },
-  primaryText: { color: '#fff', fontWeight: '600' },
-  secondary: { borderWidth: 1, borderColor: '#1565c0' },
-  secondaryText: { color: '#1565c0', fontWeight: '600' },
+  actions: { flexDirection: 'row', gap: spacing.sm, justifyContent: 'flex-start' },
+  btnGrow: { flex: 1 },
 });

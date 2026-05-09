@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import type { MobileContainer } from '../../../Infrastructure/CompositionRoot/mobileContainer';
 import type { RootStackParamList } from '../navigation/types';
+import { appStyles, colors, spacing, typography } from '../theme/appTheme';
 
 type UsuarioItem = Awaited<
   ReturnType<MobileContainer['getUsuariosUseCase']['execute']>
@@ -78,10 +79,10 @@ export function UsuarioListScreen({ container }: Props) {
       <View style={styles.header}>
         <Text style={styles.title}>Usuarios</Text>
         <Pressable
-          style={styles.addBtn}
+          style={appStyles.btnPrimary}
           onPress={() => navigation.navigate({ name: 'UsuarioForm', params: {} })}
           accessibilityRole="button">
-          <Text style={styles.addBtnText}>Nuevo</Text>
+          <Text style={appStyles.btnPrimaryText}>Nuevo</Text>
         </Pressable>
       </View>
       {loading ? (
@@ -92,7 +93,7 @@ export function UsuarioListScreen({ container }: Props) {
           keyExtractor={(item) => String(item.id)}
           ListEmptyComponent={<Text style={styles.empty}>No hay usuarios. Pulsa Nuevo.</Text>}
           renderItem={({ item }) => (
-            <View style={styles.card}>
+            <View style={[appStyles.card, styles.cardMargin]}>
               <Pressable
                 onPress={() =>
                   navigation.navigate({
@@ -124,47 +125,32 @@ export function UsuarioListScreen({ container }: Props) {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, padding: 16 },
+  root: {
+    flex: 1,
+    padding: spacing.md,
+    backgroundColor: colors.background,
+  },
   header: {
-    position: 'absolute',
-    left: 16,
-    right: 16,
-    top: '38%',
-    alignItems: 'stretch',
-    zIndex: 20,
-    elevation: 20,
+    marginBottom: spacing.lg,
   },
-  title: { fontSize: 18, fontWeight: '700', textAlign: 'center' },
-  addBtn: {
-    backgroundColor: '#1565c0',
-    paddingVertical: 16,
-    borderRadius: 12,
-    marginTop: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 21,
-    elevation: 21,
+  title: {
+    ...typography.subtitle,
+    textAlign: 'center',
+    marginBottom: spacing.sm,
+    color: colors.textPrimary,
   },
-  addBtnText: { color: '#fff', fontWeight: '700', fontSize: 18 },
-  hint: { textAlign: 'center', marginTop: 260, color: '#666' },
-  empty: { textAlign: 'center', marginTop: 260, color: '#666' },
-  listContent: { paddingTop: 260 },
-  card: {
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
-    borderRadius: 10,
-    marginBottom: 10,
-    backgroundColor: '#fafafa',
-    overflow: 'hidden',
-  },
-  cardMain: { padding: 14 },
-  cardTitle: { fontSize: 17, fontWeight: '600' },
-  cardSub: { marginTop: 4, color: '#444', fontSize: 14 },
+  hint: { textAlign: 'center', marginTop: spacing.xl, color: colors.textMuted },
+  empty: { textAlign: 'center', marginTop: spacing.xxl, color: colors.textMuted },
+  listContent: { paddingBottom: spacing.xl },
+  cardMargin: { marginBottom: spacing.sm },
+  cardMain: { padding: spacing.md },
+  cardTitle: { fontSize: 17, fontWeight: '600', color: colors.textPrimary },
+  cardSub: { marginTop: spacing.xs, color: colors.textSecondary, fontSize: 14 },
   deleteBtn: {
-    paddingHorizontal: 14,
-    paddingVertical: 10,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
     borderTopWidth: 1,
-    borderTopColor: '#eee',
+    borderTopColor: colors.cardBorder,
   },
-  deleteBtnText: { color: '#c62828', fontWeight: '600', fontSize: 14 },
+  deleteBtnText: { color: colors.error, fontWeight: '600', fontSize: 14 },
 });
