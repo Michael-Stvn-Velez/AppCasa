@@ -107,12 +107,13 @@ export function FacturaCasaFormScreen({ container }: Props) {
     void (async () => {
       try {
         if (facturaId == null) {
-          await container.createFacturaCasaUseCase.execute({
+          const creada = await container.createFacturaCasaUseCase.execute({
             anio: anioN,
             mes: mesNumero,
             valorLuz: luzN,
             valorAseo: aseoN,
           });
+          navigation.replace('ValorUsuariosFactura', { facturaId: creada.id });
         } else {
           await container.updateFacturaCasaUseCase.execute({
             id: facturaId,
@@ -121,8 +122,8 @@ export function FacturaCasaFormScreen({ container }: Props) {
             valorLuz: luzN,
             valorAseo: aseoN,
           });
+          salir();
         }
-        salir();
       } catch (e) {
         Alert.alert('Error', e instanceof Error ? e.message : 'No se pudo guardar.');
       }

@@ -11,6 +11,8 @@ export type ScreenBackBarProps = {
   label?: string;
   /** Si no hay historial en el stack, navega a esta ruta. */
   fallbackRoute?: keyof RootStackParamList;
+  /** Si no hay `goBack` y se define, se usa en lugar de `fallbackRoute` (p. ej. rutas con parámetros). */
+  fallbackNavigate?: () => void;
 };
 
 function navigateToRoute(
@@ -48,8 +50,12 @@ function navigateToRoute(
     case 'FacturaCasaHistorico':
       navigation.navigate('FacturaCasaHistorico');
       return;
+    case 'ValorUsuariosFactura':
+    case 'ValorUsuarioForm':
+      navigation.navigate('Home');
+      return;
     default:
-      navigation.navigate(route);
+      navigation.navigate('Home');
   }
 }
 
@@ -57,7 +63,11 @@ function navigateToRoute(
  * Barra superior con acción para volver a la pantalla anterior (`goBack`),
  * o a `fallbackRoute` si el stack no permite retroceder.
  */
-export function ScreenBackBar({ label = 'Atrás', fallbackRoute = 'Home' }: ScreenBackBarProps) {
+export function ScreenBackBar({
+  label = 'Atrás',
+  fallbackRoute = 'Home',
+  fallbackNavigate,
+}: ScreenBackBarProps) {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const insets = useSafeAreaInsets();
 
@@ -65,10 +75,12 @@ export function ScreenBackBar({ label = 'Atrás', fallbackRoute = 'Home' }: Scre
     Keyboard.dismiss();
     if (navigation.canGoBack()) {
       navigation.goBack();
+    } else if (fallbackNavigate) {
+      fallbackNavigate();
     } else {
       navigateToRoute(navigation, fallbackRoute);
     }
-  }, [navigation, fallbackRoute]);
+  }, [navigation, fallbackRoute, fallbackNavigate]);
 
   return (
     <View style={[styles.wrap, { paddingTop: insets.top + spacing.xs }]}>

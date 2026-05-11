@@ -9,4 +9,6 @@ export type RootStackParamList = {
   FacturaCasaMenu: undefined;
   FacturaCasaHistorico: undefined;
   FacturaCasaForm: { facturaId?: number };
+  ValorUsuariosFactura: { facturaId: number };
+  ValorUsuarioForm: { facturaId: number; usuarioId: number };
 };

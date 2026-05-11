@@ -69,23 +69,38 @@ export function FacturaCasaHistoricoScreen({ container }: Props) {
               <Text style={styles.empty}>No hay facturas registradas. Crea una desde el menú.</Text>
             }
             renderItem={({ item }) => (
-              <Pressable
-                style={[appStyles.card, styles.cardMargin]}
-                onPress={() =>
-                  navigation.navigate({
-                    name: 'FacturaCasaForm',
-                    params: { facturaId: item.id },
-                  })
-                }
-                accessibilityRole="button">
+              <View style={[appStyles.card, styles.cardMargin]}>
                 <View style={styles.cardInner}>
                   <Text style={styles.cardTitle}>{etiquetaMesYAnio(item.anio, item.mes)}</Text>
                   <Text style={styles.cardSub}>
                     Luz: {formatoMoneda(item.valorLuz)} · Aseo: {formatoMoneda(item.valorAseo)}
                   </Text>
-                  <Text style={styles.cardHint}>Pulsa para editar</Text>
+                  <View style={styles.cardActions}>
+                    <Pressable
+                      style={[appStyles.btnSecondary, styles.btnHalf]}
+                      onPress={() =>
+                        navigation.navigate({
+                          name: 'FacturaCasaForm',
+                          params: { facturaId: item.id },
+                        })
+                      }
+                      accessibilityRole="button">
+                      <Text style={[appStyles.btnSecondaryText, styles.btnActionText]}>Editar factura</Text>
+                    </Pressable>
+                    <Pressable
+                      style={[appStyles.btnPrimary, styles.btnHalf]}
+                      onPress={() =>
+                        navigation.navigate({
+                          name: 'ValorUsuariosFactura',
+                          params: { facturaId: item.id },
+                        })
+                      }
+                      accessibilityRole="button">
+                      <Text style={[appStyles.btnPrimaryText, styles.btnActionText]}>Consumos usuarios</Text>
+                    </Pressable>
+                  </View>
                 </View>
-              </Pressable>
+              </View>
             )}
             contentContainerStyle={styles.listContent}
             style={styles.flatList}
@@ -123,5 +138,11 @@ const styles = StyleSheet.create({
   cardInner: { padding: spacing.md },
   cardTitle: { fontSize: 20, fontWeight: '700', color: colors.textPrimary },
   cardSub: { marginTop: spacing.xs, color: colors.textSecondary, fontSize: 16 },
-  cardHint: { marginTop: spacing.sm, fontSize: 14, color: colors.textMuted },
+  cardActions: {
+    marginTop: spacing.md,
+    flexDirection: 'row',
+    gap: spacing.sm,
+  },
+  btnHalf: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing.sm },
+  btnActionText: { fontSize: 15, textAlign: 'center' },
 });

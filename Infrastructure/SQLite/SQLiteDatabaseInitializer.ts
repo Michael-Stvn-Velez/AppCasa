@@ -4,6 +4,7 @@ import { ensureAdminTableSchema } from './admin/adminSchema';
 import { getAppDatabase } from './appDatabase';
 import { ensureFacturaCasaTableSchema } from './facturaCasa/facturaCasaSchema';
 import { ensureUsuarioTableSchema } from './usuario/usuarioSchema';
+import { ensureValorUsuarioTableSchema } from './valorUsuario/valorUsuarioSchema';
 
 /**
  * Abre la BD compartida y deja el esquema mínimo aplicado. No cierra la conexión.
@@ -19,6 +20,7 @@ export class SQLiteDatabaseInitializer implements IDatabaseInitializer {
     await database.execAsync('PRAGMA user_version;');
     await ensureUsuarioTableSchema(database);
     await ensureFacturaCasaTableSchema(database);
+    await ensureValorUsuarioTableSchema(database);
     await ensureAdminTableSchema(database);
   }
 }

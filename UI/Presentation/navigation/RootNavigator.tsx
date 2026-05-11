@@ -9,6 +9,8 @@ import { WebDbUnavailableScreen } from '../screens/platform/WebDbUnavailableScre
 import { FacturaCasaFormScreen } from '../screens/factura/FacturaCasaFormScreen';
 import { FacturaCasaHistoricoScreen } from '../screens/factura/FacturaCasaHistoricoScreen';
 import { FacturaCasaMenuScreen } from '../screens/factura/FacturaCasaMenuScreen';
+import { ValorUsuarioFormScreen } from '../screens/valorUsuario/ValorUsuarioFormScreen';
+import { ValorUsuariosFacturaScreen } from '../screens/valorUsuario/ValorUsuariosFacturaScreen';
 import { UsuarioFormScreen } from '../screens/usuario/UsuarioFormScreen';
 import { UsuarioListScreen } from '../screens/usuario/UsuarioListScreen';
 import type { RootStackParamList } from './types';
@@ -30,6 +32,8 @@ export function RootNavigator({ container }: Props) {
   const FacturaCasaMenuRoute = () => <FacturaCasaMenuScreen />;
   const FacturaCasaHistoricoRoute = () => <FacturaCasaHistoricoScreen container={container} />;
   const FacturaCasaFormRoute = () => <FacturaCasaFormScreen container={container} />;
+  const ValorUsuariosFacturaRoute = () => <ValorUsuariosFacturaScreen container={container} />;
+  const ValorUsuarioFormRoute = () => <ValorUsuarioFormScreen container={container} />;
 
   if (Platform.OS === 'web') {
     return (
@@ -57,6 +61,8 @@ export function RootNavigator({ container }: Props) {
       <Stack.Screen name="FacturaCasaMenu" component={FacturaCasaMenuRoute} />
       <Stack.Screen name="FacturaCasaHistorico" component={FacturaCasaHistoricoRoute} />
       <Stack.Screen name="FacturaCasaForm" component={FacturaCasaFormRoute} />
+      <Stack.Screen name="ValorUsuariosFactura" component={ValorUsuariosFacturaRoute} />
+      <Stack.Screen name="ValorUsuarioForm" component={ValorUsuarioFormRoute} />
     </Stack.Navigator>
   );
 }
