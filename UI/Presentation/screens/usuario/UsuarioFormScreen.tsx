@@ -4,6 +4,8 @@ import type { RouteProp } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Alert,
+  Keyboard,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -13,8 +15,9 @@ import {
   View,
 } from 'react-native';
 import type { MobileContainer } from '../../../../Infrastructure/CompositionRoot/mobileContainer';
+import { FormKeyboardAvoidingView } from '../../components/FormKeyboardAvoidingView';
 import type { RootStackParamList } from '../../navigation/types';
-import { appStyles, colors, radii, spacing, typography } from '../../theme/appTheme';
+import { appStyles, colors, radii, spacing, systemKeyboardTextInputProps, typography } from '../../theme/appTheme';
 
 type Props = {
   container: MobileContainer;
@@ -28,9 +31,11 @@ export function UsuarioFormScreen({ container }: Props) {
   const [nombre, setNombre] = useState('');
   const [pisoDeLaCasa, setPisoDeLaCasa] = useState('');
   const [esCasa, setEsCasa] = useState(false);
+  const [activo, setActivo] = useState(true);
   const [loading, setLoading] = useState(!!usuarioId);
 
   const salir = useCallback(() => {
+    Keyboard.dismiss();
     navigation.goBack();
   }, [navigation]);
 
@@ -39,6 +44,7 @@ export function UsuarioFormScreen({ container }: Props) {
       setNombre('');
       setPisoDeLaCasa('');
       setEsCasa(false);
+      setActivo(true);
       setLoading(false);
       return;
     }
@@ -53,6 +59,7 @@ export function UsuarioFormScreen({ container }: Props) {
       setNombre(u.nombre);
       setPisoDeLaCasa(u.pisoDeLaCasa);
       setEsCasa(u.esCasa);
+      setActivo(u.activo);
     } catch (e) {
       Alert.alert(
         'Error',
@@ -69,6 +76,7 @@ export function UsuarioFormScreen({ container }: Props) {
   }, [cargar]);
 
   const guardar = () => {
+    Keyboard.dismiss();
     const n = nombre.trim();
     const p = pisoDeLaCasa.trim();
     if (!n || !p) {
@@ -82,6 +90,7 @@ export function UsuarioFormScreen({ container }: Props) {
             nombre: n,
             pisoDeLaCasa: p,
             esCasa,
+            activo,
           });
         } else {
           await container.updateUsuarioUseCase.execute({
@@ -89,6 +98,7 @@ export function UsuarioFormScreen({ container }: Props) {
             nombre: n,
             pisoDeLaCasa: p,
             esCasa,
+            activo,
           });
         }
         salir();
@@ -110,31 +120,40 @@ export function UsuarioFormScreen({ container }: Props) {
   }
 
   return (
-    <ScrollView
-      style={styles.root}
-      contentContainerStyle={styles.content}
-      keyboardShouldPersistTaps="handled">
-      <View style={styles.formCard}>
-        <Text style={styles.title}>{usuarioId == null ? 'Nuevo usuario' : 'Editar usuario'}</Text>
+    <FormKeyboardAvoidingView style={styles.kavRoot}>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.content}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
+        showsVerticalScrollIndicator={false}>
+        <View style={styles.formCard}>
+          <Text style={styles.title}>{usuarioId == null ? 'Nuevo usuario' : 'Editar usuario'}</Text>
 
-        <Text style={styles.label}>Nombre</Text>
-        <TextInput
-          style={[appStyles.input, styles.field]}
-          value={nombre}
-          onChangeText={setNombre}
-          placeholder="Nombre"
-          placeholderTextColor={colors.textMuted}
-          autoCapitalize="words"
-        />
+          <Text style={styles.label}>Nombre</Text>
+          <TextInput
+            {...systemKeyboardTextInputProps}
+            style={[appStyles.input, styles.field]}
+            value={nombre}
+            onChangeText={setNombre}
+            placeholder="Nombre"
+            placeholderTextColor={colors.textMuted}
+            autoCapitalize="words"
+            returnKeyType="next"
+            onSubmitEditing={() => Keyboard.dismiss()}
+          />
 
-        <Text style={styles.label}>Piso de la casa</Text>
-        <TextInput
-          style={[appStyles.input, styles.field]}
-          value={pisoDeLaCasa}
-          onChangeText={setPisoDeLaCasa}
-          placeholder="Ej. 3º B"
-          placeholderTextColor={colors.textMuted}
-        />
+          <Text style={styles.label}>Piso de la casa</Text>
+          <TextInput
+            {...systemKeyboardTextInputProps}
+            style={[appStyles.input, styles.field]}
+            value={pisoDeLaCasa}
+            onChangeText={setPisoDeLaCasa}
+            placeholder="Ej. 3º B"
+            placeholderTextColor={colors.textMuted}
+            returnKeyType="done"
+            onSubmitEditing={() => Keyboard.dismiss()}
+          />
 
         <View style={styles.switchRow}>
           <Text style={styles.label}>Es casa</Text>
@@ -142,6 +161,17 @@ export function UsuarioFormScreen({ container }: Props) {
             value={esCasa}
             onValueChange={setEsCasa}
             accessibilityLabel="Es casa"
+            trackColor={{ false: colors.border, true: colors.primary }}
+            thumbColor={colors.surface}
+          />
+        </View>
+
+        <View style={styles.switchRow}>
+          <Text style={styles.label}>Usuario activo</Text>
+          <Switch
+            value={activo}
+            onValueChange={setActivo}
+            accessibilityLabel="Usuario activo"
             trackColor={{ false: colors.border, true: colors.primary }}
             thumbColor={colors.surface}
           />
@@ -159,12 +189,14 @@ export function UsuarioFormScreen({ container }: Props) {
           </Pressable>
         </View>
       </View>
-    </ScrollView>
+      </ScrollView>
+    </FormKeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: colors.background },
+  kavRoot: { flex: 1, backgroundColor: colors.background },
+  scroll: { flex: 1 },
   content: {
     flexGrow: 1,
     justifyContent: 'center',

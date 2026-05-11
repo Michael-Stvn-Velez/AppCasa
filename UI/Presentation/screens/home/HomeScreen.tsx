@@ -76,10 +76,10 @@ export function HomeScreen({ container }: Props) {
                 </Pressable>
                 <Pressable
                   style={[styles.tile, { backgroundColor: colors.primary }]}
-                  onPress={() => {}}
+                  onPress={() => navigation.navigate({ name: 'FacturaCasaMenu', params: undefined })}
                   accessibilityRole="button"
-                  accessibilityLabel="Crear factura del mes">
-                  <Text style={styles.tileLabel}>Generar Factura</Text>
+                  accessibilityLabel="Administrar facturas">
+                  <Text style={styles.tileLabel}>Administrar Facturas</Text>
                 </Pressable>
               </View>
 

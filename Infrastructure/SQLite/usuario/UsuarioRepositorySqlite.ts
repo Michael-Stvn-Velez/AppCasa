@@ -8,6 +8,7 @@ type UsuarioRow = {
   nombre: string;
   piso_de_la_casa: string;
   es_casa: number;
+  activo?: number;
 };
 
 export class UsuarioRepositorySqlite implements IUsuarioRepository {
@@ -17,6 +18,7 @@ export class UsuarioRepositorySqlite implements IUsuarioRepository {
       nombre: row.nombre,
       pisoDeLaCasa: row.piso_de_la_casa,
       esCasa: row.es_casa === 1,
+      activo: (row.activo ?? 1) === 1,
     };
   }
 
@@ -27,6 +29,7 @@ export class UsuarioRepositorySqlite implements IUsuarioRepository {
       input.nombre,
       input.pisoDeLaCasa,
       input.esCasa ? 1 : 0,
+      input.activo ? 1 : 0,
     );
     const row = await db.getFirstAsync<UsuarioRow>(
       usuarioSql.selectById,
@@ -57,6 +60,7 @@ export class UsuarioRepositorySqlite implements IUsuarioRepository {
       usuario.nombre,
       usuario.pisoDeLaCasa,
       usuario.esCasa ? 1 : 0,
+      usuario.activo ? 1 : 0,
       usuario.id,
     );
   }

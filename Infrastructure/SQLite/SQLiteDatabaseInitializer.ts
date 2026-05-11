@@ -2,6 +2,7 @@ import type { IDatabaseInitializer } from '../../Domain/Ports/IDatabaseInitializ
 import { Platform } from 'react-native';
 import { ensureAdminTableSchema } from './admin/adminSchema';
 import { getAppDatabase } from './appDatabase';
+import { ensureFacturaCasaTableSchema } from './facturaCasa/facturaCasaSchema';
 import { ensureUsuarioTableSchema } from './usuario/usuarioSchema';
 
 /**
@@ -17,6 +18,7 @@ export class SQLiteDatabaseInitializer implements IDatabaseInitializer {
     const database = await getAppDatabase();
     await database.execAsync('PRAGMA user_version;');
     await ensureUsuarioTableSchema(database);
+    await ensureFacturaCasaTableSchema(database);
     await ensureAdminTableSchema(database);
   }
 }

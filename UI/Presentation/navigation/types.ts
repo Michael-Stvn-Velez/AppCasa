@@ -6,4 +6,7 @@ export type RootStackParamList = {
   Home: undefined;
   UsuarioList: undefined;
   UsuarioForm: { usuarioId?: number };
+  FacturaCasaMenu: undefined;
+  FacturaCasaHistorico: undefined;
+  FacturaCasaForm: { facturaId?: number };
 };

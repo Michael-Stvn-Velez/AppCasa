@@ -104,7 +104,8 @@ export function UsuarioListScreen({ container }: Props) {
                   style={styles.cardMain}>
                   <Text style={styles.cardTitle}>{item.nombre}</Text>
                   <Text style={styles.cardSub}>
-                    Piso: {item.pisoDeLaCasa} · {item.esCasa ? 'Casa' : 'No es casa'}
+                    Piso: {item.pisoDeLaCasa} · {item.esCasa ? 'Casa' : 'No es casa'} ·{' '}
+                    {item.activo ? 'Activo' : 'Inactivo'}
                   </Text>
                 </Pressable>
                 <Pressable

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TextInput, type TextInputProps } from 'react-native';
 
 /** Colores de marca y superficies (capa presentación). */
 export const colors = {
@@ -135,3 +135,31 @@ export const appStyles = StyleSheet.create({
     overflow: 'hidden',
   },
 });
+
+/**
+ * Props de teclado alineados con el sistema (mismo teclado que otras apps: tema claro/oscuro del OS en iOS).
+ * Útil para sobrescribir en un campo concreto o si no se usa `configureSystemTextInputDefaults`.
+ */
+export const systemKeyboardTextInputProps: Pick<
+  TextInputProps,
+  'keyboardAppearance' | 'keyboardType'
+> = {
+  keyboardAppearance: 'default',
+  keyboardType: 'default',
+};
+
+type TextInputWithLegacyDefaults = typeof TextInput & {
+  defaultProps?: Partial<TextInputProps>;
+};
+
+/**
+ * Aplica teclado por defecto del dispositivo a todos los `TextInput` de la app.
+ * Debe ejecutarse una vez al arranque (p. ej. desde `App.tsx`).
+ */
+export function configureSystemTextInputDefaults(): void {
+  const T = TextInput as TextInputWithLegacyDefaults;
+  T.defaultProps = {
+    ...T.defaultProps,
+    ...systemKeyboardTextInputProps,
+  };
+}

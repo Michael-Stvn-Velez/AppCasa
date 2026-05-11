@@ -3,6 +3,8 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Alert,
+  Keyboard,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -11,8 +13,9 @@ import {
   View,
 } from 'react-native';
 import type { MobileContainer } from '../../../../Infrastructure/CompositionRoot/mobileContainer';
+import { FormKeyboardAvoidingView } from '../../components/FormKeyboardAvoidingView';
 import type { RootStackParamList } from '../../navigation/types';
-import { appStyles, colors, spacing, typography } from '../../theme/appTheme';
+import { appStyles, colors, spacing, systemKeyboardTextInputProps, typography } from '../../theme/appTheme';
 
 type Props = {
   container: MobileContainer;
@@ -47,6 +50,7 @@ export function AdminWelcomeScreen({ container }: Props) {
   }, [verificar]);
 
   const guardar = () => {
+    Keyboard.dismiss();
     const n = nombre.trim();
     if (!n) {
       Alert.alert('Nombre requerido', 'Escribe cómo te gustaría que te llamáramos.');
@@ -76,34 +80,41 @@ export function AdminWelcomeScreen({ container }: Props) {
   }
 
   return (
-    <View style={styles.outer}>
-      <View style={appStyles.adminFormPanel}>
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={appStyles.adminFormPanelInner}
-          showsVerticalScrollIndicator={false}>
-          <Text style={styles.welcome}>
-            Bienvienid@ a APP Casa, cuentanos como te gustaria que te llamaramos:
-          </Text>
-          <TextInput
-            style={[appStyles.input, styles.inputSpacing]}
-            value={nombre}
-            onChangeText={setNombre}
-            placeholder="Tu nombre"
-            placeholderTextColor={colors.textMuted}
-            autoCapitalize="words"
-            accessibilityLabel="Nombre del administrador"
-          />
-          <Pressable style={appStyles.btnPrimary} onPress={guardar} accessibilityRole="button">
-            <Text style={appStyles.btnPrimaryText}>Continuar</Text>
-          </Pressable>
-        </ScrollView>
+    <FormKeyboardAvoidingView style={styles.kavRoot}>
+      <View style={styles.outer}>
+        <View style={appStyles.adminFormPanel}>
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
+            contentContainerStyle={appStyles.adminFormPanelInner}
+            showsVerticalScrollIndicator={false}>
+            <Text style={styles.welcome}>
+              Bienvienid@ a APP Casa, cuentanos como te gustaria que te llamaramos:
+            </Text>
+            <TextInput
+              {...systemKeyboardTextInputProps}
+              style={[appStyles.input, styles.inputSpacing]}
+              value={nombre}
+              onChangeText={setNombre}
+              placeholder="Tu nombre"
+              placeholderTextColor={colors.textMuted}
+              autoCapitalize="words"
+              accessibilityLabel="Nombre del administrador"
+              returnKeyType="done"
+              onSubmitEditing={() => Keyboard.dismiss()}
+            />
+            <Pressable style={appStyles.btnPrimary} onPress={guardar} accessibilityRole="button">
+              <Text style={appStyles.btnPrimaryText}>Continuar</Text>
+            </Pressable>
+          </ScrollView>
+        </View>
       </View>
-    </View>
+    </FormKeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
+  kavRoot: { flex: 1, backgroundColor: colors.background },
   outer: {
     flex: 1,
     backgroundColor: colors.background,

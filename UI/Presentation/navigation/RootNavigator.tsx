@@ -6,6 +6,9 @@ import { AdminWelcomeScreen } from '../screens/admin/AdminWelcomeScreen';
 import { BootstrapScreen } from '../screens/bootstrap/BootstrapScreen';
 import { HomeScreen } from '../screens/home/HomeScreen';
 import { WebDbUnavailableScreen } from '../screens/platform/WebDbUnavailableScreen';
+import { FacturaCasaFormScreen } from '../screens/factura/FacturaCasaFormScreen';
+import { FacturaCasaHistoricoScreen } from '../screens/factura/FacturaCasaHistoricoScreen';
+import { FacturaCasaMenuScreen } from '../screens/factura/FacturaCasaMenuScreen';
 import { UsuarioFormScreen } from '../screens/usuario/UsuarioFormScreen';
 import { UsuarioListScreen } from '../screens/usuario/UsuarioListScreen';
 import type { RootStackParamList } from './types';
@@ -24,6 +27,9 @@ export function RootNavigator({ container }: Props) {
   const HomeRoute = () => <HomeScreen container={container} />;
   const UsuarioListRoute = () => <UsuarioListScreen container={container} />;
   const UsuarioFormRoute = () => <UsuarioFormScreen container={container} />;
+  const FacturaCasaMenuRoute = () => <FacturaCasaMenuScreen />;
+  const FacturaCasaHistoricoRoute = () => <FacturaCasaHistoricoScreen container={container} />;
+  const FacturaCasaFormRoute = () => <FacturaCasaFormScreen container={container} />;
 
   if (Platform.OS === 'web') {
     return (
@@ -48,6 +54,9 @@ export function RootNavigator({ container }: Props) {
       <Stack.Screen name="Home" component={HomeRoute} />
       <Stack.Screen name="UsuarioList" component={UsuarioListRoute} />
       <Stack.Screen name="UsuarioForm" component={UsuarioFormRoute} />
+      <Stack.Screen name="FacturaCasaMenu" component={FacturaCasaMenuRoute} />
+      <Stack.Screen name="FacturaCasaHistorico" component={FacturaCasaHistoricoRoute} />
+      <Stack.Screen name="FacturaCasaForm" component={FacturaCasaFormRoute} />
     </Stack.Navigator>
   );
 }

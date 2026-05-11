@@ -4,6 +4,9 @@ import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { createMobileContainer } from './Infrastructure/CompositionRoot/mobileContainer';
 import { RootNavigator } from './UI/Presentation/navigation/RootNavigator';
+import { configureSystemTextInputDefaults } from './UI/Presentation/theme/appTheme';
+
+configureSystemTextInputDefaults();
 
 const container = createMobileContainer();
 

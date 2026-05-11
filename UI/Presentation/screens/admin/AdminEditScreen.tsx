@@ -3,6 +3,8 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Alert,
+  Keyboard,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -11,8 +13,9 @@ import {
   View,
 } from 'react-native';
 import type { MobileContainer } from '../../../../Infrastructure/CompositionRoot/mobileContainer';
+import { FormKeyboardAvoidingView } from '../../components/FormKeyboardAvoidingView';
 import type { RootStackParamList } from '../../navigation/types';
-import { appStyles, colors, spacing, typography } from '../../theme/appTheme';
+import { appStyles, colors, spacing, systemKeyboardTextInputProps, typography } from '../../theme/appTheme';
 
 type Props = {
   container: MobileContainer;
@@ -46,6 +49,7 @@ export function AdminEditScreen({ container }: Props) {
   }, [cargar]);
 
   const guardar = () => {
+    Keyboard.dismiss();
     const n = nombre.trim();
     if (!n) {
       Alert.alert('Nombre requerido', 'El nombre no puede estar vacío.');
@@ -70,44 +74,54 @@ export function AdminEditScreen({ container }: Props) {
   }
 
   return (
-    <View style={styles.outer}>
-      <View style={appStyles.adminFormPanel}>
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={appStyles.adminFormPanelInner}
-          showsVerticalScrollIndicator={false}>
-          <Text style={styles.title}>Cambiar tu nombre</Text>
-          <Text style={styles.sub}>Puedes actualizar cómo te llamamos en la app.</Text>
-          <TextInput
-            style={[appStyles.input, styles.input, styles.inputSpacing]}
-            value={nombre}
-            onChangeText={setNombre}
-            placeholder="Tu nombre"
-            placeholderTextColor={colors.textMuted}
-            autoCapitalize="words"
-            accessibilityLabel="Nombre del administrador"
-          />
-          <View style={styles.actions}>
-            <Pressable
-              style={[appStyles.btnSecondary, styles.btnFlex]}
-              onPress={() => navigation.goBack()}
-              accessibilityRole="button">
-              <Text style={[appStyles.btnSecondaryText, styles.btnText]}>Cancelar</Text>
-            </Pressable>
-            <Pressable
-              style={[appStyles.btnPrimary, styles.btnFlex]}
-              onPress={guardar}
-              accessibilityRole="button">
-              <Text style={[appStyles.btnPrimaryText, styles.btnText]}>Guardar</Text>
-            </Pressable>
-          </View>
-        </ScrollView>
+    <FormKeyboardAvoidingView style={styles.kavRoot}>
+      <View style={styles.outer}>
+        <View style={appStyles.adminFormPanel}>
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
+            contentContainerStyle={appStyles.adminFormPanelInner}
+            showsVerticalScrollIndicator={false}>
+            <Text style={styles.title}>Cambiar tu nombre</Text>
+            <Text style={styles.sub}>Puedes actualizar cómo te llamamos en la app.</Text>
+            <TextInput
+              {...systemKeyboardTextInputProps}
+              style={[appStyles.input, styles.input, styles.inputSpacing]}
+              value={nombre}
+              onChangeText={setNombre}
+              placeholder="Tu nombre"
+              placeholderTextColor={colors.textMuted}
+              autoCapitalize="words"
+              accessibilityLabel="Nombre del administrador"
+              returnKeyType="done"
+              onSubmitEditing={() => Keyboard.dismiss()}
+            />
+            <View style={styles.actions}>
+              <Pressable
+                style={[appStyles.btnSecondary, styles.btnFlex]}
+                onPress={() => {
+                  Keyboard.dismiss();
+                  navigation.goBack();
+                }}
+                accessibilityRole="button">
+                <Text style={[appStyles.btnSecondaryText, styles.btnText]}>Cancelar</Text>
+              </Pressable>
+              <Pressable
+                style={[appStyles.btnPrimary, styles.btnFlex]}
+                onPress={guardar}
+                accessibilityRole="button">
+                <Text style={[appStyles.btnPrimaryText, styles.btnText]}>Guardar</Text>
+              </Pressable>
+            </View>
+          </ScrollView>
+        </View>
       </View>
-    </View>
+    </FormKeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
+  kavRoot: { flex: 1, backgroundColor: colors.background },
   outer: {
     flex: 1,
     backgroundColor: colors.background,
