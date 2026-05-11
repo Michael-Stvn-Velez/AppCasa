@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { colors, spacing, typography } from '../theme/appTheme';
+import { colors, spacing, typography } from '../../theme/appTheme';
 
 export function WebDbUnavailableScreen() {
   return (

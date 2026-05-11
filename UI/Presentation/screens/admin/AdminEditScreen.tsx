@@ -10,9 +10,9 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import type { MobileContainer } from '../../../Infrastructure/CompositionRoot/mobileContainer';
-import type { RootStackParamList } from '../navigation/types';
-import { appStyles, colors, spacing, typography } from '../theme/appTheme';
+import type { MobileContainer } from '../../../../Infrastructure/CompositionRoot/mobileContainer';
+import type { RootStackParamList } from '../../navigation/types';
+import { appStyles, colors, spacing, typography } from '../../theme/appTheme';
 
 type Props = {
   container: MobileContainer;
@@ -79,7 +79,7 @@ export function AdminEditScreen({ container }: Props) {
           <Text style={styles.title}>Cambiar tu nombre</Text>
           <Text style={styles.sub}>Puedes actualizar cómo te llamamos en la app.</Text>
           <TextInput
-            style={[appStyles.input, styles.inputSpacing]}
+            style={[appStyles.input, styles.input, styles.inputSpacing]}
             value={nombre}
             onChangeText={setNombre}
             placeholder="Tu nombre"
@@ -92,13 +92,13 @@ export function AdminEditScreen({ container }: Props) {
               style={[appStyles.btnSecondary, styles.btnFlex]}
               onPress={() => navigation.goBack()}
               accessibilityRole="button">
-              <Text style={appStyles.btnSecondaryText}>Cancelar</Text>
+              <Text style={[appStyles.btnSecondaryText, styles.btnText]}>Cancelar</Text>
             </Pressable>
             <Pressable
               style={[appStyles.btnPrimary, styles.btnFlex]}
               onPress={guardar}
               accessibilityRole="button">
-              <Text style={appStyles.btnPrimaryText}>Guardar</Text>
+              <Text style={[appStyles.btnPrimaryText, styles.btnText]}>Guardar</Text>
             </Pressable>
           </View>
         </ScrollView>
@@ -121,10 +121,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.background,
   },
-  hint: { color: colors.textMuted },
-  title: { ...typography.subtitle, marginBottom: spacing.xs, color: colors.textPrimary },
-  sub: { ...typography.bodySmall, color: colors.textSecondary, marginBottom: spacing.lg },
+  hint: { color: colors.textMuted, fontSize: 16 },
+  title: { ...typography.title, fontSize: 28, marginBottom: spacing.xs, color: colors.textPrimary },
+  sub: { ...typography.body, fontSize: 16, color: colors.textSecondary, marginBottom: spacing.lg },
+  input: { fontSize: 18 },
   inputSpacing: { marginBottom: spacing.lg },
   actions: { flexDirection: 'row', gap: spacing.sm, justifyContent: 'flex-start' },
   btnFlex: { flex: 1 },
+  btnText: { fontSize: 18 },
 });

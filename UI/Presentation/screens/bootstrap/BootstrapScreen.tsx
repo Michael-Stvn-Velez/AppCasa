@@ -2,9 +2,9 @@ import { CommonActions, useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
-import type { MobileContainer } from '../../../Infrastructure/CompositionRoot/mobileContainer';
-import type { RootStackParamList } from '../navigation/types';
-import { colors, spacing, typography } from '../theme/appTheme';
+import type { MobileContainer } from '../../../../Infrastructure/CompositionRoot/mobileContainer';
+import type { RootStackParamList } from '../../navigation/types';
+import { colors, spacing, typography } from '../../theme/appTheme';
 
 type Props = {
   container: MobileContainer;

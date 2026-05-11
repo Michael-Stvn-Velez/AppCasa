@@ -15,6 +15,9 @@ export const colors = {
   errorBackground: '#FFEBEE',
   cardBackground: '#FFFFFF',
   cardBorder: '#E8E2EF',
+  /** Botones destacados en Home (usuarios / factura / configuración). */
+  homeTileUsuario: '#1565A8',
+  homeTileConfig: '#047857',
 } as const;
 
 export const spacing = {

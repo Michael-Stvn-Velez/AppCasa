@@ -10,9 +10,9 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import type { MobileContainer } from '../../../Infrastructure/CompositionRoot/mobileContainer';
-import type { RootStackParamList } from '../navigation/types';
-import { appStyles, colors, spacing, typography } from '../theme/appTheme';
+import type { MobileContainer } from '../../../../Infrastructure/CompositionRoot/mobileContainer';
+import type { RootStackParamList } from '../../navigation/types';
+import { appStyles, colors, spacing, typography } from '../../theme/appTheme';
 
 type Props = {
   container: MobileContainer;

@@ -1,13 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Platform } from 'react-native';
 import type { MobileContainer } from '../../../Infrastructure/CompositionRoot/mobileContainer';
-import { AdminEditScreen } from '../screens/AdminEditScreen';
-import { AdminWelcomeScreen } from '../screens/AdminWelcomeScreen';
-import { BootstrapScreen } from '../screens/BootstrapScreen';
-import { HomeScreen } from '../screens/HomeScreen';
-import { UsuarioFormScreen } from '../screens/UsuarioFormScreen';
-import { UsuarioListScreen } from '../screens/UsuarioListScreen';
-import { WebDbUnavailableScreen } from '../screens/WebDbUnavailableScreen';
+import { AdminEditScreen } from '../screens/admin/AdminEditScreen';
+import { AdminWelcomeScreen } from '../screens/admin/AdminWelcomeScreen';
+import { BootstrapScreen } from '../screens/bootstrap/BootstrapScreen';
+import { HomeScreen } from '../screens/home/HomeScreen';
+import { WebDbUnavailableScreen } from '../screens/platform/WebDbUnavailableScreen';
+import { UsuarioFormScreen } from '../screens/usuario/UsuarioFormScreen';
+import { UsuarioListScreen } from '../screens/usuario/UsuarioListScreen';
 import type { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
