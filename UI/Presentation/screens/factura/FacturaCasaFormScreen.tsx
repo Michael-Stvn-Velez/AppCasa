@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import type { MobileContainer } from '../../../../Infrastructure/CompositionRoot/mobileContainer';
 import { FormKeyboardAvoidingView } from '../../components/FormKeyboardAvoidingView';
+import { ScreenBackBar } from '../../components/ScreenBackBar';
 import { MesPickerField } from '../../meses';
 import type { RootStackParamList } from '../../navigation/types';
 import { appStyles, colors, radii, spacing, systemKeyboardTextInputProps, typography } from '../../theme/appTheme';
@@ -138,14 +139,15 @@ export function FacturaCasaFormScreen({ container }: Props) {
 
   return (
     <FormKeyboardAvoidingView style={styles.kavRoot}>
+      <ScreenBackBar fallbackRoute="FacturaCasaMenu" />
       <ScrollView
         style={styles.root}
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
         showsVerticalScrollIndicator={false}>
+        <Text style={styles.title}>{esEdicion ? 'Editar factura' : 'Nueva factura de la casa'}</Text>
         <View style={styles.formCard}>
-          <Text style={styles.title}>{esEdicion ? 'Editar factura' : 'Nueva factura de la casa'}</Text>
 
           <Text style={styles.label}>Año</Text>
           <TextInput
@@ -234,7 +236,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   hint: { color: colors.textMuted, fontSize: 16 },
-  title: { ...typography.title, fontSize: 28, marginBottom: spacing.xl, color: colors.textPrimary },
+  title: { ...typography.title, fontSize: 28, marginBottom: spacing.xl, color: colors.textPrimary, textAlign:'center' },
   label: { ...typography.label, fontSize: 17, marginBottom: spacing.xs, color: colors.textPrimary },
   field: { marginBottom: spacing.md, fontSize: 18 },
   actions: { flexDirection: 'row', gap: spacing.sm, justifyContent: 'flex-start', marginTop: spacing.md },

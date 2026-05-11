@@ -3,44 +3,48 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ScreenBackBar } from '../../components/ScreenBackBar';
 import type { RootStackParamList } from '../../navigation/types';
 import { appStyles, colors, radii, spacing, typography } from '../../theme/appTheme';
 
 export function FacturaCasaMenuScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const insets = useSafeAreaInsets();
-  const topPad = insets.top + spacing.lg;
   const bottomPad = Math.max(insets.bottom, spacing.md);
 
   return (
-    <ScrollView
-      style={styles.root}
-      contentContainerStyle={[styles.content, { paddingTop: topPad, paddingBottom: bottomPad }]}>
-      <Text style={styles.title}>Facturas de la casa</Text>
-      <Text style={styles.sub}>Elige una opción</Text>
+    <View style={styles.screen}>
+      <ScreenBackBar fallbackRoute="Home" />
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={[styles.content, { paddingBottom: bottomPad }]}>
+        <Text style={styles.title}>Facturas de la casa</Text>
+        <Text style={styles.sub}>Elige una opción</Text>
 
-      <View style={styles.card}>
-        <Pressable
-          style={[appStyles.btnPrimary, styles.optionBtn]}
-          onPress={() => navigation.navigate({ name: 'FacturaCasaHistorico', params: undefined })}
-          accessibilityRole="button"
-          accessibilityLabel="Ver histórico de facturas">
-          <Text style={appStyles.btnPrimaryText}>Ver histórico</Text>
-        </Pressable>
-        <Pressable
-          style={[appStyles.btnPrimary, styles.optionBtn]}
-          onPress={() => navigation.navigate({ name: 'FacturaCasaForm', params: {} })}
-          accessibilityRole="button"
-          accessibilityLabel="Crear nueva factura de la casa">
-          <Text style={appStyles.btnPrimaryText}>Crear nueva factura de la casa</Text>
-        </Pressable>
-      </View>
-    </ScrollView>
+        <View style={styles.card}>
+          <Pressable
+            style={[appStyles.btnPrimary, styles.optionBtn]}
+            onPress={() => navigation.navigate({ name: 'FacturaCasaHistorico', params: undefined })}
+            accessibilityRole="button"
+            accessibilityLabel="Ver histórico de facturas">
+            <Text style={appStyles.btnPrimaryText}>Ver histórico</Text>
+          </Pressable>
+          <Pressable
+            style={[appStyles.btnPrimary, styles.optionBtn]}
+            onPress={() => navigation.navigate({ name: 'FacturaCasaForm', params: {} })}
+            accessibilityRole="button"
+            accessibilityLabel="Crear nueva factura de la casa">
+            <Text style={appStyles.btnPrimaryText}>Crear nueva factura de la casa</Text>
+          </Pressable>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: colors.background },
+  screen: { flex: 1, backgroundColor: colors.background },
+  scroll: { flex: 1 },
   content: {
     flexGrow: 1,
     paddingHorizontal: spacing.md,
@@ -50,6 +54,7 @@ const styles = StyleSheet.create({
     ...typography.title,
     fontSize: 26,
     textAlign: 'center',
+    marginTop: spacing.sm,
     marginBottom: spacing.sm,
     color: colors.textPrimary,
   },

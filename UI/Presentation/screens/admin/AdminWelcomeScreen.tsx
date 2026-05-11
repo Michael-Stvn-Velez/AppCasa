@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import type { MobileContainer } from '../../../../Infrastructure/CompositionRoot/mobileContainer';
 import { FormKeyboardAvoidingView } from '../../components/FormKeyboardAvoidingView';
+import { ScreenBackBar } from '../../components/ScreenBackBar';
 import type { RootStackParamList } from '../../navigation/types';
 import { appStyles, colors, spacing, systemKeyboardTextInputProps, typography } from '../../theme/appTheme';
 
@@ -81,8 +82,10 @@ export function AdminWelcomeScreen({ container }: Props) {
 
   return (
     <FormKeyboardAvoidingView style={styles.kavRoot}>
-      <View style={styles.outer}>
-        <View style={appStyles.adminFormPanel}>
+      <View style={styles.shell}>
+        <ScreenBackBar fallbackRoute="Bootstrap" />
+        <View style={styles.outer}>
+          <View style={appStyles.adminFormPanel}>
           <ScrollView
             keyboardShouldPersistTaps="handled"
             keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
@@ -108,6 +111,7 @@ export function AdminWelcomeScreen({ container }: Props) {
             </Pressable>
           </ScrollView>
         </View>
+        </View>
       </View>
     </FormKeyboardAvoidingView>
   );
@@ -115,9 +119,9 @@ export function AdminWelcomeScreen({ container }: Props) {
 
 const styles = StyleSheet.create({
   kavRoot: { flex: 1, backgroundColor: colors.background },
+  shell: { flex: 1, backgroundColor: colors.background },
   outer: {
     flex: 1,
-    backgroundColor: colors.background,
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: spacing.md,

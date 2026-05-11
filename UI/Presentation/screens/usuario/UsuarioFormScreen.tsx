@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import type { MobileContainer } from '../../../../Infrastructure/CompositionRoot/mobileContainer';
 import { FormKeyboardAvoidingView } from '../../components/FormKeyboardAvoidingView';
+import { ScreenBackBar } from '../../components/ScreenBackBar';
 import type { RootStackParamList } from '../../navigation/types';
 import { appStyles, colors, radii, spacing, systemKeyboardTextInputProps, typography } from '../../theme/appTheme';
 
@@ -127,6 +128,7 @@ export function UsuarioFormScreen({ container }: Props) {
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
         showsVerticalScrollIndicator={false}>
+        <ScreenBackBar fallbackRoute="UsuarioList" />
         <View style={styles.formCard}>
           <Text style={styles.title}>{usuarioId == null ? 'Nuevo usuario' : 'Editar usuario'}</Text>
 

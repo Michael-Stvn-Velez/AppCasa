@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { MobileContainer } from '../../../../Infrastructure/CompositionRoot/mobileContainer';
+import { ScreenBackBar } from '../../components/ScreenBackBar';
 import type { RootStackParamList } from '../../navigation/types';
 import { appStyles, colors, spacing, typography } from '../../theme/appTheme';
 
@@ -76,11 +77,11 @@ export function UsuarioListScreen({ container }: Props) {
     );
   };
 
-  const topPad = insets.top + spacing.lg;
   const bottomPad = Math.max(insets.bottom, spacing.md);
 
   return (
-    <View style={[styles.root, { paddingTop: topPad, paddingBottom: bottomPad }]}>
+    <View style={[styles.root, { paddingBottom: bottomPad }]}>
+      <ScreenBackBar fallbackRoute="Home" />
       <Text style={styles.title}>Usuarios</Text>
 
       <View style={styles.listSection}>
@@ -136,7 +137,6 @@ export function UsuarioListScreen({ container }: Props) {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    paddingHorizontal: spacing.md,
     backgroundColor: colors.background,
   },
   title: {
@@ -144,11 +144,14 @@ const styles = StyleSheet.create({
     fontSize: 26,
     textAlign: 'center',
     marginBottom: spacing.md,
+    marginTop: spacing.sm,
+    paddingHorizontal: spacing.md,
     color: colors.textPrimary,
   },
   listSection: {
     flex: 1,
     minHeight: 0,
+    paddingHorizontal: spacing.md,
   },
   flatList: {
     flex: 1,
@@ -158,6 +161,7 @@ const styles = StyleSheet.create({
   listContent: { flexGrow: 1, paddingBottom: spacing.sm },
   nuevoBtn: {
     marginTop: spacing.md,
+    marginHorizontal: spacing.md,
   },
   cardMargin: { marginBottom: spacing.sm },
   cardMain: { padding: spacing.md },

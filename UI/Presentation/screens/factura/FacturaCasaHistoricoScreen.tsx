@@ -4,6 +4,7 @@ import React, { useCallback, useState } from 'react';
 import { Alert, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { MobileContainer } from '../../../../Infrastructure/CompositionRoot/mobileContainer';
+import { ScreenBackBar } from '../../components/ScreenBackBar';
 import { etiquetaMesYAnio } from '../../meses';
 import type { RootStackParamList } from '../../navigation/types';
 import { appStyles, colors, spacing, typography } from '../../theme/appTheme';
@@ -50,11 +51,11 @@ export function FacturaCasaHistoricoScreen({ container }: Props) {
     }, [reload]),
   );
 
-  const topPad = insets.top + spacing.lg;
   const bottomPad = Math.max(insets.bottom, spacing.md);
 
   return (
-    <View style={[styles.root, { paddingTop: topPad, paddingBottom: bottomPad }]}>
+    <View style={[styles.root, { paddingBottom: bottomPad }]}>
+      <ScreenBackBar fallbackRoute="FacturaCasaMenu" />
       <Text style={styles.title}>Histórico de facturas</Text>
 
       <View style={styles.listSection}>
@@ -98,7 +99,6 @@ export function FacturaCasaHistoricoScreen({ container }: Props) {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    paddingHorizontal: spacing.md,
     backgroundColor: colors.background,
   },
   title: {
@@ -106,11 +106,14 @@ const styles = StyleSheet.create({
     fontSize: 26,
     textAlign: 'center',
     marginBottom: spacing.md,
+    marginTop: spacing.sm,
+    paddingHorizontal: spacing.md,
     color: colors.textPrimary,
   },
   listSection: {
     flex: 1,
     minHeight: 0,
+    paddingHorizontal: spacing.md,
   },
   flatList: { flex: 1 },
   hint: { textAlign: 'center', marginTop: spacing.xl, color: colors.textMuted, fontSize: 16 },
